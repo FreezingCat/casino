@@ -38,45 +38,45 @@ inline int sum(std::vector<int> in_vec){
 std::string getVal(int card){
 	switch (card){
 		case 1:
-		return "Ace";
-		break;
+				return "Ace";
+				break;
 		case 2:
-		return "2";
-		break;
+				return "2";
+				break;
 		case 3:
-		return "3";
-		break;
+				return "3";
+				break;
 		case 4:
-		return "4";
-		break;
+				return "4";
+				break;
 		case 5:
-		return "5";
-		break;
+				return "5";
+				break;
 		case 6:
-		return "6";
-		break;
+				return "6";
+				break;
 		case 7:
-		return "7";
-		break;
+				return "7";
+				break;
 		case 8:
-		return "8";
-		break;
+				return "8";
+				break;
 		case 9:
-		return "9";
-	        break;
+				return "9";
+			  break;
 		case 10:
-		return "Jack";
-		break;
+				return "Jack";
+				break;
 		case 11:
-		return "Queen";
-		break;
+				return "Queen";
+				break;
 		case 12:
-		return "King";
-	        break;
-                default:
- 		std::cerr << "Card type value can't be determinated exiting.\n";
-    		exit(1);
-                break;
+				return "King";
+		    break;
+    default:
+    std::cerr << "Card type value can't be determinated exiting.\n";
+		exit(1);
+    break;
 	}
 }
 

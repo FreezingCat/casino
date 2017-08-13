@@ -8,20 +8,21 @@
 using std::vector;
 using std::cin;
 using std::cout;
-#define dsplyVal cout << "Your card's value: " << sum(player_cards) << "\nDealer's card's value: " << sum(dealer_cards) << '\n'; cout << "You have "<< player_cards.size() << " cards : "; for (i=0;i<player_cards.size() - 1;i++){ cout << getVal(player_cards[i]) << ", "; } cout << "\n"; cout << "Dealer has "<< dealer_cards.size() << " cards : "; for (i=0;i<dealer_cards.size() - 1;i++) { cout << getVal(dealer_cards[i]) << ", "; } cout << "\n"
+#define dsplyVal cout << "Your card's value: " << sum(player_cards) << "\nDealer's card's value: " << sum(dealer_cards) << '\n'; cout << "You have "<< player_cards.size() << " cards : "; for (i=0;i<player_cards.size() - 1;i++){ cout << getVal(player_cards[i]) << ", "; } cout << '\n'; cout << "Dealer has "<< dealer_cards.size() << " cards : "; for (i=0;i<dealer_cards.size() - 1;i++) { cout << getVal(dealer_cards[i]) << ", "; } cout << "\n"
 
-int slots(const int all_cash){ //This is seriously bad just don't play it
+int slots(const long long int all_cash){
 	long long int bet;
 	/*1 = apple 2 = cherry 3 = peach 4 = banana 5 = orange 6 = BAR 7 = GOLDBAR
 	Slot machine has a total of 3 slots and each slot can be in one of the states listed above
 	The price will be determinated if 2 out of 2 slots have the same state
-	PRICE DETERMINATION : Take the value of the slot and multiply it by the same slot TODO improve this*/
-	unsigned int slots[3],sum;
+	PRICE DETERMINATION : Take the value of the slot and multiply it by the same slots*/
+  long long int sum;
+	size_t slots[3];
 	bool dw = false;
-	cout << "You are sitting in front of a slot machine that accepts a maximum of 500 dollars on one go.\n";
+	cout << "You are sitting in front of a slot machine that accepts a maximum of 50 dollars on one go.\n";
 while (1){
 	while (1){
-		unsigned int temp;
+		long long int temp;
 		cout << "How much you like to bet: ";
 		cin >> temp;
 		if (cin.fail()){
@@ -38,32 +39,46 @@ while (1){
 			cout << "You are attempting to bet an amount you can't afford, try again.\n";
 			continue;
 		}
-		if (temp > 500){
-			cout << "You can't bet nothing, try again.\n";
+		if (temp > 50){
+			cout << "You can't bet that much, try again.\n";
 			continue;
 		}
 		bet = temp;
 		cout << "You have bet " << bet << '\n';
 		break;
 	}
-	cout << "Press any key to pull the lever.";
-  getchar();
 
 	for (int i=0;i<3;i++){
-		slots[i] = rng(1,7,bet%51*2491+3);
+		slots[i] = rng(1,7,bet%51*2491/(i+1));
+		usleep(100);
 	}
 
-	 cout << "\n______\n" << slots[0] << "|" << slots[1] << "|" << slots[2] << "|\n______\n";
+	 cout << "The current state of the slot machine\n_____________\n|           |\n| " << slots[0] << " | " << slots[1] << " | " << slots[2] << " |\n|           |\n|___________|\n";
 
+	 for (size_t i=0;i<3;i++){
+		 size_t sc = 0;
+	 	for (size_t j=0;j<3;j++){
+      if (slots[i] == slots[j]){
+					sc++;
+			}
+			if (sc >= 2){
+				dw = true;
+				sum += (pow(slots[i],sc)*bet);
+				cout << "Your reward is " << pow(slots[i],sc)*bet << '\n';
+				goto done;
+			}
+		}
+	 }
+	 done:
+	 if (!dw){
+		 sum -= bet;
+		 cout << "You have lost your bet.\n";
+	 }
 
-	 //TODO compare the states TODO fix this shit function
-
-
-   cout << "The current state of the slot machine\n______\n" << slots[0] << "|" << slots[1] << "|" << slots[2] << "|\n______\n";
 	 char yn = 'n';
-	 if (all_cash + sum >= 1){
-	 cout << "Bet again? (y/n)";
-	 yn = getchar();
+	 if ((all_cash + sum) >= 1){
+	 cout << "Your cash: "<< (all_cash + sum) <<"\nBet again? (y/n)";
+	 cin >> yn;
 	 if (yn == 'y'){
 			continue;
 	 } else if (yn == 'n'){
@@ -82,7 +97,7 @@ while (1){
 int dealer(const long long int all_cash){
 	long long int bet;
 	while (1){
-		unsigned int temp;
+		unsigned long long int temp;
 		cout << "How much you like to bet: ";
 		cin >> temp;
 		if (cin.fail()){
